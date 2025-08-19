@@ -20,13 +20,15 @@ def create_test_image(img):
     return img
 
 
-def main():
-    img = Image(size=float2(x=64, y=64), background_color=float3(x=0, y=0, z=0))
+def render(img):
+    write_to_bmp(img)
 
+
+def main(img):
     img_final = create_test_image(img)
-
-    write_to_bmp(img_final)
+    render(img_final)
 
 
 if __name__ == "__main__":
-    main()
+    img = Image(size=float2(x=64, y=64), background_color=float3(x=0, y=0, z=0))
+    main(img)
