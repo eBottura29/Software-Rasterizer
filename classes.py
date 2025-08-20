@@ -267,7 +267,9 @@ class RenderTarget:
 
 
 class Transform:
-    def __init__(self, yaw=0):
+    def __init__(self, pitch=0.0, roll=0.0, yaw=0.0):
+        self.pitch = pitch
+        self.roll = roll
         self.yaw = yaw
 
     def to_world_vertex(self, vertex: float3):
@@ -275,9 +277,26 @@ class Transform:
         return self.transform_vector(ihat, jhat, khat, vertex)
 
     def get_basis_vectors(self):
-        ihat = float3(cos(self.yaw), 0, sin(self.yaw))
-        jhat = float3(0, 1, 0)
-        khat = float3(-sin(self.yaw), 0, cos(self.yaw))
+        # YAW
+        ihat_yaw = float3(cos(self.yaw), 0, sin(self.yaw))
+        jhat_yaw = float3(0, 1, 0)
+        khat_yaw = float3(-sin(self.yaw), 0, cos(self.yaw))
+
+        # PITCH
+        ihat_pitch = float3(1, 0, 0)
+        jhat_pitch = float3(0, cos(self.pitch), sin(self.pitch))
+        khat_pitch = float3(0, -sin(self.pitch), cos(self.pitch))
+
+        # ROLL
+        ihat_roll = float3(cos(self.roll), sin(self.roll), 0)
+        jhat_roll = float3(-sin(self.roll), cos(self.roll), 0)
+        khat_roll = float3(0, 0, 1)
+
+        # Combine transformations (Yaw → Pitch → Roll)
+        ihat = self.transform_vector(ihat_yaw, jhat_yaw, khat_yaw, self.transform_vector(ihat_pitch, jhat_pitch, khat_pitch, ihat_roll))
+        jhat = self.transform_vector(ihat_yaw, jhat_yaw, khat_yaw, self.transform_vector(ihat_pitch, jhat_pitch, khat_pitch, jhat_roll))
+        khat = self.transform_vector(ihat_yaw, jhat_yaw, khat_yaw, self.transform_vector(ihat_pitch, jhat_pitch, khat_pitch, khat_roll))
+
         return ihat, jhat, khat
 
     @staticmethod
@@ -290,4 +309,4 @@ class CubeModel:
         self.vertices = vertices
         self.cols = cols
 
-        self.transform = Transform(-20)
+        self.transform = Transform(pitch=20.0, roll=0.0, yaw=20.0)
