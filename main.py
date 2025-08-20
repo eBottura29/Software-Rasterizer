@@ -25,7 +25,7 @@ from renderer import render
 def main():
     obj_path = os.getcwd() + "\\obj\\cube.obj"
     print(f"Loading OBJ file from: {obj_path}")
-    cube_model_vertices = obj_parser(obj_path)
+    cube_model_vertices = obj_parser(obj_string=open(obj_path, "r").read())
 
     triangle_cols = [
         float3(x=random.randint(0, 255), y=random.randint(0, 255), z=random.randint(0, 255)) for _ in range(len(cube_model_vertices) // 3)

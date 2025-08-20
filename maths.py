@@ -26,5 +26,9 @@ def world_to_screen(vertex: float3, number_of_pixels: float2):
     screen_height_world = 5
     pixels_per_world_unit = number_of_pixels.y / screen_height_world
 
-    pixel_offset = float2(vertex.x + number_of_pixels / 2, vertex.y + number_of_pixels / 2) * pixels_per_world_unit
-    return pixel_offset
+    pixel_offset = float2(vertex.x * pixels_per_world_unit, vertex.y * pixels_per_world_unit)
+    return float2(pixel_offset.x + number_of_pixels.x / 2, pixel_offset.y + number_of_pixels.y / 2)
+
+
+def clamp(value, min_value, max_value):
+    return max(min_value, min(value, max_value))

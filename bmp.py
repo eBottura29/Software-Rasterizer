@@ -40,7 +40,7 @@ def write_to_bmp(tgt: RenderTarget):
     pixel_bytes = bytearray()
     for y in range(height - 1, -1, -1):  # bottom to top
         for x in range(width):
-            pixel = tgt.image[x][y]
+            pixel = tgt.color_buffer[x][y]
             # BMP is BGR
             pixel_bytes.extend([int(pixel.b) & 0xFF, int(pixel.g) & 0xFF, int(pixel.r) & 0xFF])
         # Add padding

@@ -42,11 +42,11 @@ def obj_parser(obj_string):
 
     for line in obj_string.splitlines(obj_string):
         if line.startswith("v "):
-            axes = line.split(" ")[1:]
-            vertex = float3(float(axis) for axis in axes)
+            axes = line[1:].strip().split(" ")
+            vertex = float3(float(axes[0]), float(axes[1]), float(axes[2]))
             all_vertices.append(vertex)
         elif line.startswith("f "):
-            face_index_groups = line.split()[1:].split(" ")
+            face_index_groups = line[1:].strip().split(" ")
 
             for i in range(len(face_index_groups)):
                 index_group = face_index_groups[i].split("/")

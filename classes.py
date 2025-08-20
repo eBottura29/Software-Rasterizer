@@ -13,6 +13,9 @@ class float3:
         self.g = y
         self.b = z
 
+    def __repr__(self):
+        return f"float3(x={self.x}, y={self.y}, z={self.z})"
+
 
 class tri2:
     def __init__(self, a=float2, b=float2, c=float2):
