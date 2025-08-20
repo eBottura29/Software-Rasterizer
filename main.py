@@ -32,7 +32,7 @@ def main():
     ]
 
     cube_model = CubeModel(cube_model_vertices, triangle_cols)
-    render_target = RenderTarget(w=64, h=64, background_color=float3(0, 0, 0))
+    render_target = RenderTarget(w=256, h=256, background_color=float3(0, 0, 0))
 
     render(cube_model, render_target)
 

@@ -1,4 +1,4 @@
-from classes import tri2, float2, float3
+from classes import tri2, float2, float3, Transform
 
 
 def dot(a: float2, b: float2):
@@ -22,12 +22,14 @@ def point_in_triangle(tri: tri2, p: float2):
     return side_ab == side_bc and side_bc == side_ca
 
 
-def world_to_screen(vertex: float3, number_of_pixels: float2):
+def world_to_screen(vertex: float3, transform: Transform, number_of_pixels: float2):
+    vertex_world = transform.to_world_vertex(vertex)
+
     screen_height_world = 5
     pixels_per_world_unit = number_of_pixels.y / screen_height_world
 
-    pixel_offset = float2(vertex.x * pixels_per_world_unit, vertex.y * pixels_per_world_unit)
-    return float2(pixel_offset.x + number_of_pixels.x / 2, pixel_offset.y + number_of_pixels.y / 2)
+    pixel_offset = float2(vertex_world.x, vertex_world.y) * pixels_per_world_unit
+    return number_of_pixels / 2 + pixel_offset
 
 
 def clamp(value, min_value, max_value):

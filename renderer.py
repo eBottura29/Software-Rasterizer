@@ -8,9 +8,9 @@ from classes import tri2, float2
 def render(model, target):
     print(f"Rendering model with {len(model.vertices) // 3} triangles to target of size {target.width}x{target.height}")
     for i in range(0, len(model.vertices), 3):
-        a = maths.world_to_screen(model.vertices[i + 0], target.size)
-        b = maths.world_to_screen(model.vertices[i + 1], target.size)
-        c = maths.world_to_screen(model.vertices[i + 2], target.size)
+        a = maths.world_to_screen(model.vertices[i + 0], model.transform, target.size)
+        b = maths.world_to_screen(model.vertices[i + 1], model.transform, target.size)
+        c = maths.world_to_screen(model.vertices[i + 2], model.transform, target.size)
 
         min_x = min(a.x, b.x, c.x)
         min_y = min(a.y, b.y, c.y)
