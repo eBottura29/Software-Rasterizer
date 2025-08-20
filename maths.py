@@ -19,7 +19,7 @@ def point_in_triangle(tri: tri2, p: float2):
     side_ab = point_on_right_side_of_line(tri.a, tri.b, p)
     side_bc = point_on_right_side_of_line(tri.b, tri.c, p)
     side_ca = point_on_right_side_of_line(tri.c, tri.a, p)
-    return side_ab == side_bc and side_bc == side_ca
+    return side_ab and side_bc and side_ca
 
 
 def world_to_screen(vertex: float3, transform: Transform, number_of_pixels: float2):
