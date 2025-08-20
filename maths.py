@@ -1,5 +1,4 @@
-from tris import tri2
-from floats import float2
+from classes import tri2, float2, float3
 
 
 def dot(a: float2, b: float2):
@@ -21,3 +20,11 @@ def point_in_triangle(tri: tri2, p: float2):
     side_bc = point_on_right_side_of_line(tri.b, tri.c, p)
     side_ca = point_on_right_side_of_line(tri.c, tri.a, p)
     return side_ab == side_bc and side_bc == side_ca
+
+
+def world_to_screen(vertex: float3, number_of_pixels: float2):
+    screen_height_world = 5
+    pixels_per_world_unit = number_of_pixels.y / screen_height_world
+
+    pixel_offset = float2(vertex.x + number_of_pixels / 2, vertex.y + number_of_pixels / 2) * pixels_per_world_unit
+    return pixel_offset
