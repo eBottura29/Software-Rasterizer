@@ -5,8 +5,7 @@ import maths
 from classes import tri2, float2
 
 
-def render(model, target):
-    print(f"Rendering model with {len(model.vertices) // 3} triangles to target of size {target.width}x{target.height}")
+def render(model, target, animation_mode=False, frame_number=0, out_dir=""):
     for i in range(0, len(model.vertices), 3):
         a = maths.world_to_screen(model.vertices[i + 0], model.transform, target.size, 30)
         b = maths.world_to_screen(model.vertices[i + 1], model.transform, target.size, 30)
@@ -27,4 +26,4 @@ def render(model, target):
                 if maths.point_in_triangle(tri2(a, b, c), float2(x, y)):
                     target.color_buffer[x][y] = model.cols[i // 3]
 
-        write_to_bmp(target)
+        write_to_bmp(target, animation_mode=animation_mode, frame_number=frame_number, out_dir=out_dir)

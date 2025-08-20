@@ -4,8 +4,8 @@ from datetime import datetime
 from classes import RenderTarget
 
 
-# written by AI, couldnt be bothered to write it myself
-def write_to_bmp(tgt: RenderTarget):
+# written by AI, couldnt be bothered to write it myself (i did do the animation stuff though)
+def write_to_bmp(tgt: RenderTarget, animation_mode=False, frame_number=0, out_dir=""):
     width, height = int(tgt.width), int(tgt.height)
 
     # Each row must be padded to a multiple of 4 bytes
@@ -50,11 +50,15 @@ def write_to_bmp(tgt: RenderTarget):
     bmp_data = bmp_header + dib_header + pixel_bytes
 
     # --- Save to file ---
-    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    out_dir = os.path.join(os.getcwd(), "renders", now)
-    os.makedirs(out_dir, exist_ok=True)
+    if not animation_mode:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        out_dir = os.path.join(os.getcwd(), "renders", now)
+        os.makedirs(out_dir, exist_ok=True)
 
-    file_path = os.path.join(out_dir, "image.bmp")
+        file_path = os.path.join(out_dir, "image.bmp")
+    else:
+        file_path = os.path.join(out_dir, f"{frame_number}.bmp")
+
     with open(file_path, "wb") as f:
         f.write(bmp_data)
 
