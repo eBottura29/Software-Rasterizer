@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, radians
 
 
 class float2:
@@ -267,29 +267,30 @@ class RenderTarget:
 
 
 class Transform:
-    def __init__(self, pitch=0.0, roll=0.0, yaw=0.0):
+    def __init__(self, position=float3(0.0, 0.0, 0.0), pitch=0.0, roll=0.0, yaw=0.0):
+        self.position = position
         self.pitch = pitch
         self.roll = roll
         self.yaw = yaw
 
     def to_world_vertex(self, vertex: float3):
         ihat, jhat, khat = self.get_basis_vectors()
-        return self.transform_vector(ihat, jhat, khat, vertex)
+        return self.transform_vector(ihat, jhat, khat, vertex) + self.position
 
     def get_basis_vectors(self):
         # YAW
-        ihat_yaw = float3(cos(self.yaw), 0, sin(self.yaw))
+        ihat_yaw = float3(cos(radians(self.yaw)), 0, sin(radians(self.yaw)))
         jhat_yaw = float3(0, 1, 0)
-        khat_yaw = float3(-sin(self.yaw), 0, cos(self.yaw))
+        khat_yaw = float3(-sin(radians(self.yaw)), 0, cos(radians(self.yaw)))
 
         # PITCH
         ihat_pitch = float3(1, 0, 0)
-        jhat_pitch = float3(0, cos(self.pitch), sin(self.pitch))
-        khat_pitch = float3(0, -sin(self.pitch), cos(self.pitch))
+        jhat_pitch = float3(0, cos(radians(self.pitch)), sin(radians(self.pitch)))
+        khat_pitch = float3(0, -sin(radians(self.pitch)), cos(radians(self.pitch)))
 
         # ROLL
-        ihat_roll = float3(cos(self.roll), sin(self.roll), 0)
-        jhat_roll = float3(-sin(self.roll), cos(self.roll), 0)
+        ihat_roll = float3(cos(radians(self.roll)), sin(radians(self.roll)), 0)
+        jhat_roll = float3(-sin(radians(self.roll)), cos(radians(self.roll)), 0)
         khat_roll = float3(0, 0, 1)
 
         # Combine transformations (Yaw → Pitch → Roll)
@@ -309,4 +310,4 @@ class CubeModel:
         self.vertices = vertices
         self.cols = cols
 
-        self.transform = Transform(pitch=20.0, roll=0.0, yaw=20.0)
+        self.transform = Transform(position=float3(0.0, 0.0, 2.5), pitch=45.0, roll=45.0, yaw=0.0)
